@@ -20,7 +20,7 @@ class CheckPermission
 
         $pageId = $this->getPageIdFromRequest($request);
 
-        if ($role && $role->permissions()->where('page_id', $pageId)->where($action, 1)->exists()) {
+        if ($role && $role->permissions()->where('portal_page_id', $pageId)->where($action, 1)->exists()) {
             return $next($request);
         }
 

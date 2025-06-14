@@ -21,7 +21,7 @@ class AuthController extends Controller
             'device_id' => 'sometimes|string',
         ]);
 
-        $user = User::where('username', $request->username)->first();
+        $user = User::where('username', $request->username)->first();        
 
         if ($user && $user->status && md5($request->password) === $user->password) {
             // Get role information
@@ -46,7 +46,7 @@ class AuthController extends Controller
             // Prepare the userData object
             $userData = [
                 'name' => $user->name,
-                'avatar'=> null,
+                'avatar'=> FileStorage::getUrl('users',  $user->avatar) ?? null,
                 'organization' => $organization,
                 'fiscal' => [],
                 'currentFiscal' => null,
@@ -57,7 +57,7 @@ class AuthController extends Controller
 
             foreach ($permissions as $permission) {
                 $page = \DB::table('portal_page')
-                        ->where('id', $permission->page_id)
+                        ->where('id', $permission->portal_page_id)
                         ->first();
 
                 if ($page) {

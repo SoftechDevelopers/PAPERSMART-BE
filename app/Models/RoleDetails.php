@@ -13,7 +13,7 @@ class RoleDetails extends Model
 
     protected $fillable = [
         'role_id',
-        'page_id',
+        'portal_page_id',
         'create',
         'view',
         'edit',
@@ -27,11 +27,11 @@ class RoleDetails extends Model
 
     public function portalPage()
     {
-        return $this->belongsTo(PortalPage::class, 'page_id');
+        return $this->belongsTo(PortalPage::class);
     }
 
     public function role()
     {
-        return $this->belongsTo(Role::class, 'role_id');
+        return $this->belongsTo(Role::class);
     }
 }

@@ -37,6 +37,6 @@ class FileStorage
     // Send file url for response payload
     public static function getUrl(?string $subdir, string $fileName){
 
-        return config('app.url'). '/assets/' . $subdir . '/'. $fileName;
+        return config('app.url'). '/paper-assets/' . $subdir . '/'. $fileName;
     }
 }

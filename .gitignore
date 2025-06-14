@@ -16,3 +16,4 @@
 bootstrap/cache/packages.php
 vendor/autoload.php
 composer.lock
+.env

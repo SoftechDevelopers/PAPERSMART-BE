@@ -18,7 +18,7 @@ class PermissionController extends Controller
         $pages = PortalPage::all(['id', 'name', 'type']);
 
         foreach ($pages as $page) {
-            $permissions = RoleDetails::where('page_id', $page->id)
+            $permissions = RoleDetails::where('portal_page_id', $page->id)
                         ->get();
 
             foreach ($permissions as $permission) {
@@ -55,7 +55,7 @@ class PermissionController extends Controller
         foreach ($permissions as $permission) {
             $roleDetails = RoleDetails::where([
                 'role_id' => $roleId,
-                'page_id' => $permission['id']
+                'portal_page_id' => $permission['id']
             ])->first();
 
             if ($roleDetails) {
@@ -72,7 +72,7 @@ class PermissionController extends Controller
             } else {
                 RoleDetails::create([
                     'role_id' => $roleId,
-                    'page_id' => $permission['id'],
+                    'portal_page_id' => $permission['id'],
                     'create' => $permission['create'] ?? false,
                     'view' => $permission['view'] ?? false,
                     'edit' => $permission['edit'] ?? false,
@@ -84,27 +84,6 @@ class PermissionController extends Controller
                 ]);
             }
         }
-
-
-    //     foreach ($permissions as $permission) {
-    //         RoleDetails::updateOrCreate(
-    //         [
-    //             'role_id' => $roleId,
-    //             'page_id' => $permission['id']
-    //         ],
-    //         [
-    //             'create' => $permission['create'] ?? false,
-    //             'view' => $permission['view'] ?? false,
-    //             'edit' => $permission['edit'] ?? false,
-    //             'remove' => $permission['remove'] ?? false,
-    //             'export' => $permission['export'] ?? false,
-    //             'print' => $permission['print'] ?? false,
-    //             'send' => $permission['send'] ?? false,
-    //             'created_by' => $userId,
-    //             'updated_by' => $userId
-    //         ]
-    //     );
-    // }
 
         return response()->json(['message' => 'Permissions processed successfully']);
     }
