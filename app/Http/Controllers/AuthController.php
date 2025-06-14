@@ -92,17 +92,6 @@ class AuthController extends Controller
                 }
             }
 
-            if ($user->staff_id) {
-                $staff = \DB::table('staff')
-                            ->where('id', $user->staff_id)
-                            ->first();
-
-                if ($staff) {
-                    $userData['name'] = $staff->name;
-                    $userData['avatar'] = FileStorage::getUrl('staff', $staff->photo_url);
-                }
-            }
-
             $fiscalNames = \DB::table('fiscal')->pluck('fiscal_name');
             $userData['fiscal'] = $fiscalNames;
 
