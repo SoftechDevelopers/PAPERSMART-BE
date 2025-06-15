@@ -21,8 +21,8 @@ class AuthController extends Controller
             'device_id' => 'sometimes|string',
         ]);
 
-        $user = User::where('username', $request->username)->first();        
-
+        $user = User::where('username', $request->username)->first();         
+        
         if ($user && $user->status && md5($request->password) === $user->password) {
             // Get role information
             $role = \DB::table('role')
@@ -46,7 +46,7 @@ class AuthController extends Controller
             // Prepare the userData object
             $userData = [
                 'name' => $user->name,
-                'avatar'=> FileStorage::getUrl('users',  $user->avatar) ?? null,
+                'avatar'=> $user->avatar ? FileStorage::getUrl('users',  $user->avatar) : null,
                 'organization' => $organization,
                 'fiscal' => [],
                 'currentFiscal' => null,

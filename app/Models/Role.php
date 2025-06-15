@@ -15,13 +15,11 @@ class Role extends Model
         'role_name',
     ];
 
-    public function permissions()
-    {
+    public function permissions(){
         return $this->hasMany(RoleDetails::class, 'role_id');
     }
 
-    public function users()
-    {
+    public function users(){
         return $this->hasMany(User::class);
     }
 }

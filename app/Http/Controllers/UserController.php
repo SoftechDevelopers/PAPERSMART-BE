@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Services\FileStorage;
 
 class UserController extends Controller
 {
@@ -14,20 +15,21 @@ class UserController extends Controller
         $tokenData = app('token_data');
         $organizationId = $tokenData['organization_id'];
 
-        $users = User::where('status', 1)
-                        ->where('organization_id', $organizationId)
-                        ->get();
+        $users = User::with(['role:id,role_name','school:id,name,alias'])
+            ->where('status', 1)
+            ->where('organization_id', $organizationId)
+            ->get();
 
         $users = $users->map(function ($user) {
             return [
                 'id' => $user->id,
                 'name' => $user->name,
-                'email' => $user->email,
                 'username' => $user->username,
                 'role_id' => $user->role_id,
-                'role_name' => $user->role ? $user->role->role_name : null,
-                'staff_id' => $user->staff_id,
-                'partner_id' => $user->partner_id
+                'role' => $user->role,
+                'primary_contact' => $user->primary_contact,
+                'school' => $user->school,                
+                'avatar' => $user->avatar ? FileStorage::getUrl('users',  $user->avatar) : null
             ];
         });
 

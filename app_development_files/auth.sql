@@ -36,3 +36,13 @@ ALTER TABLE `user` ADD `avatar` VARCHAR(200) NULL AFTER `status`;
 
 ALTER TABLE `user` DROP `staff_id`
 ALTER TABLE `user` DROP `partner_id`
+
+ALTER TABLE `user` DROP `email`
+ALTER TABLE `papersmart`.`user` ADD UNIQUE `username_exists` (`username`);
+ALTER TABLE `user` ADD CONSTRAINT `user_role` FOREIGN KEY (`role_id`) REFERENCES `role`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `user` DROP `updated_on`
+ALTER TABLE `user` DROP `created_on`
+
+ALTER TABLE `user` ADD `school_id` INT NULL AFTER `role_id`;
+ALTER TABLE `user` ADD CONSTRAINT `user_school` FOREIGN KEY (`school_id`) REFERENCES `school`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `user` ADD `primary_contact` VARCHAR(20) NULL AFTER `school_id`;

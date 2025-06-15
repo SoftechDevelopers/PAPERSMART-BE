@@ -27,18 +27,19 @@ class User extends Authenticatable
         'updated_by',
     ];
 
-    public function role()
-    {
-        return $this->belongsTo(Role::class, 'role_id');
+    public function role(){
+        return $this->belongsTo(Role::class);
     }
 
-    public function permissions()
-    {
+    public function school(){
+        return $this->belongsTo(School::class);
+    }
+
+    public function permissions(){
          return $this->role ? $this->role->permissions : collect();
     }
 
-    public function hasPermission($pageEndpoint, $action)
-    {
+    public function hasPermission($pageEndpoint, $action){
         return $this->role->permissions()->whereHas('page', function ($query) use ($pageEndpoint) {
             $query->where('endpoint', $pageEndpoint);
         })->where($action, 1)->exists();
